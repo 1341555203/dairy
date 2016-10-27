@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.qdsoft.yzm.modules.article.ArticleMapper">
+  <resultMap id="BaseResultMap" type="cn.qdsoft.yzm.modules.entity.Article">
+    <constructor>
+      <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="u_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="c_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="title" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="create_date" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="privilege" javaType="java.lang.String" jdbcType="CHAR" />
+      <arg column="del_flag" javaType="java.lang.String" jdbcType="CHAR" />
+    </constructor>
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="cn.qdsoft.yzm.modules.entity.Article">
+    <constructor>
+      <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="u_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="c_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="title" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="create_date" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="privilege" javaType="java.lang.String" jdbcType="CHAR" />
+      <arg column="del_flag" javaType="java.lang.String" jdbcType="CHAR" />
+      <arg column="content" javaType="java.lang.String" jdbcType="LONGVARCHAR" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, u_id, c_id, title, create_date, privilege, del_flag
+  </sql>
+  <sql id="Blob_Column_List">
+    id, u_id, c_id, title,content, create_date, privilege, del_flag
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from article
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from article
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="cn.qdsoft.yzm.modules.entity.Article">
+    insert into article (id, u_id, c_id, 
+      title, create_date, privilege, 
+      del_flag, content)
+    values (#{id,jdbcType=INTEGER}, #{uId,jdbcType=INTEGER}, #{cId,jdbcType=INTEGER}, 
+      #{title,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{privilege,jdbcType=CHAR}, 
+      #{delFlag,jdbcType=CHAR}, #{content,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.qdsoft.yzm.modules.entity.Article">
+    insert into article
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="uId != null">
+        u_id,
+      </if>
+      <if test="cId != null">
+        c_id,
+      </if>
+      <if test="title != null">
+        title,
+      </if>
+      <if test="createDate != null">
+        create_date,
+      </if>
+      <if test="privilege != null">
+        privilege,
+      </if>
+      <if test="delFlag != null">
+        del_flag,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="uId != null">
+        #{uId,jdbcType=INTEGER},
+      </if>
+      <if test="cId != null">
+        #{cId,jdbcType=INTEGER},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="privilege != null">
+        #{privilege,jdbcType=CHAR},
+      </if>
+      <if test="delFlag != null">
+        #{delFlag,jdbcType=CHAR},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.qdsoft.yzm.modules.entity.Article">
+    update article
+    <set>
+      <if test="uId != null">
+        u_id = #{uId,jdbcType=INTEGER},
+      </if>
+      <if test="cId != null">
+        c_id = #{cId,jdbcType=INTEGER},
+      </if>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="privilege != null">
+        privilege = #{privilege,jdbcType=CHAR},
+      </if>
+      <if test="delFlag != null">
+        del_flag = #{delFlag,jdbcType=CHAR},
+      </if>
+      <if test="content != null">
+        content = #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="cn.qdsoft.yzm.modules.entity.Article">
+    update article
+    set u_id = #{uId,jdbcType=INTEGER},
+      c_id = #{cId,jdbcType=INTEGER},
+      title = #{title,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      privilege = #{privilege,jdbcType=CHAR},
+      del_flag = #{delFlag,jdbcType=CHAR},
+      content = #{content,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.qdsoft.yzm.modules.entity.Article">
+    update article
+    set u_id = #{uId,jdbcType=INTEGER},
+      c_id = #{cId,jdbcType=INTEGER},
+      title = #{title,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      privilege = #{privilege,jdbcType=CHAR},
+      del_flag = #{delFlag,jdbcType=CHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByCategory" parameterType="cn.qdsoft.yzm.modules.dto.ArticleDto" resultType="cn.qdsoft.yzm.modules.entity.Article">
+    select  <include refid="Base_Column_List" />
+    from article a
+    WHERE a.c_id=#{cId} AND a.u_id=#{uId}
+    AND a.del_flag='0'
+  </select>
+  <select id="selectByUser" parameterType="cn.qdsoft.yzm.modules.entity.User" resultType="cn.qdsoft.yzm.modules.entity.Article">
+    select  <include refid="Base_Column_List" />
+    from article a
+    WHERE  a.u_id=#{id}
+    AND a.del_flag='0'
+  </select>
+  <select id="countRows" parameterType="cn.qdsoft.yzm.modules.entity.User" resultType="java.lang.Integer">
+    select count(*) from article a
+    WHERE a.u_id=#{id}
+    and a.del_flag='0'
+  </select>
+</mapper>

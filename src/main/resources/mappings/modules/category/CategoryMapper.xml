@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.qdsoft.yzm.modules.category.CategoryMapper">
+  <resultMap id="BaseResultMap" type="cn.qdsoft.yzm.modules.entity.Category">
+    <constructor>
+      <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="c_name" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="c_description" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="del_flag" javaType="java.lang.String" jdbcType="CHAR" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, c_name, c_description, del_flag
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from category
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from category
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="cn.qdsoft.yzm.modules.entity.Category">
+    insert into category (id, c_name, c_description, 
+      del_flag)
+    values (#{id,jdbcType=INTEGER}, #{cName,jdbcType=VARCHAR}, #{cDescription,jdbcType=VARCHAR}, 
+      #{delFlag,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.qdsoft.yzm.modules.entity.Category">
+    insert into category
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="cName != null">
+        c_name,
+      </if>
+      <if test="cDescription != null">
+        c_description,
+      </if>
+      <if test="delFlag != null">
+        del_flag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="cName != null">
+        #{cName,jdbcType=VARCHAR},
+      </if>
+      <if test="cDescription != null">
+        #{cDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="delFlag != null">
+        #{delFlag,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.qdsoft.yzm.modules.entity.Category">
+    update category
+    <set>
+      <if test="cName != null">
+        c_name = #{cName,jdbcType=VARCHAR},
+      </if>
+      <if test="cDescription != null">
+        c_description = #{cDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="delFlag != null">
+        del_flag = #{delFlag,jdbcType=CHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.qdsoft.yzm.modules.entity.Category">
+    update category
+    set c_name = #{cName,jdbcType=VARCHAR},
+      c_description = #{cDescription,jdbcType=VARCHAR},
+      del_flag = #{delFlag,jdbcType=CHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="countRow"  resultType="java.lang.Integer">
+    select count(*) from category c WHERE  c.del_flag='0'
+  </select>
+  <select id="selectAll" resultType="cn.qdsoft.yzm.modules.entity.Category">
+    select  <include refid="Base_Column_List" />
+    FROM category
+    WHERE del_flag='0'
+  </select>
+  <select id="countArticles" parameterType="cn.qdsoft.yzm.modules.dto.ArticleDto" resultType="java.lang.Integer">
+    select count(*) from article a
+    WHERE a.c_id=#{cId} AND a.u_id=#{uId}
+    AND a.del_flag='0'
+  </select>
+
+</mapper>
